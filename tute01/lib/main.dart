@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tute01/quiz.dart';
+import 'package:tute01/result.dart';
 
-import './question.dart';
-import './answer.dart';
+//import './question.dart';
+//import './answer.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -20,7 +22,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
 
-  final questions = const [
+  final _questions = const [
     {
       'questionText': 'What\'s your favourite color?',
       'answers': ['Yellow', 'Green', 'Blue', 'Gold']
@@ -36,11 +38,11 @@ class _MyAppState extends State<MyApp> {
   ];
 
   void _answerQuestion() {
-    if (_questionIndex < questions.length - 1) {
-      setState(() {
-        _questionIndex = _questionIndex + 1;
-      });
-    }
+    //if (_questionIndex < questions.length - 1) {
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    //}
     print(_questionIndex);
   }
 
@@ -49,19 +51,15 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My First App'),
+          title: const Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Question(
-              questions[_questionIndex]['questionText'].toString(),
-            ),
-            ...(questions[_questionIndex]['answers'] as List<String>)
-                .map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList()
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
+              )
+            : const Result(),
       ),
     );
   }
