@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
-  const Result({Key? key}) : super(key: key);
+  final int totalScore;
+  final VoidCallback resetHandler;
+
+  String get resultText {
+    return 'Quiz completed, score is: ' + totalScore.toString();
+  }
+
+  const Result(this.totalScore, this.resetHandler);
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Quiz completed'),
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            resultText,
+            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          FlatButton(
+            child: Text('Reset quiz!'),
+            onPressed: resetHandler,
+            textColor: Colors.blue,
+          )
+        ],
+      ),
     );
   }
 }
