@@ -1,5 +1,6 @@
 import 'package:expenses/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +41,7 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter App'),
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
@@ -48,6 +49,27 @@ class MyHomePage extends StatelessWidget {
               child: Card(
                 color: Colors.blue,
                 child: Text('CHART!'),
+              ),
+            ),
+            Card(
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Title'),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Amount'),
+                    ),
+                    FlatButton(
+                      onPressed: () => addTransaction(11, 'title'),
+                      child: Text('Add Transaction'),
+                      textColor: Colors.purple,
+                    )
+                  ],
+                ),
               ),
             ),
             Column(
@@ -63,7 +85,7 @@ class MyHomePage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        '\$ ' + tx.amount.toString(),
+                        '\$ ${tx.amount}',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -81,7 +103,7 @@ class MyHomePage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          tx.date.toString(),
+                          DateFormat.yMMMMd().format(tx.date ?? DateTime.now()),
                           style: TextStyle(color: Colors.grey, fontSize: 16),
                         )
                       ],
@@ -92,5 +114,11 @@ class MyHomePage extends StatelessWidget {
             )
           ]),
     );
+  }
+
+  void addTransaction(double amount, String title) {
+    print(amount);
+    transactions.add(Transaction(
+        id: 'id', title: title, amount: amount, date: DateTime.now()));
   }
 }
